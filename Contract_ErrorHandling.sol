@@ -1,20 +1,27 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8;
+pragma solidity ^0.8.17;
 
 contract ErrorHandling {
-    function checkValue(uint256 value) external pure returns (bool) {
-        // Using require statement
-        require(value > 0, "Value must be greater than 0");
+   
+    uint public num = 0;
+    uint public divisor = 0;
 
-        // Using assert statement
-        uint256 result = value * 2;
-        assert(result >= value);
+    function setNum(uint _num) public {
+        require(_num != 0, "Number must not be zero");
+        num = _num;
+    }
 
-        // Using revert statement
-        if (value == 42) {
-            revert("The value cannot be 42");
-        }
+    function setDivisor(uint _divisor) public {
+        assert(_divisor != 0);
+        divisor = _divisor;
+    }
 
-        return true;
+    function divide() public view returns (uint) {
+        require(divisor != 0, "Divisor must not be zero");
+        return num/divisor;
+    }
+
+    function triggerRevert() public pure {
+        revert("This transaction intentionally reverted");
     }
 }
